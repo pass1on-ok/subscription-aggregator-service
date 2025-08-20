@@ -35,21 +35,25 @@ REST-сервис для агрегации данных об онлайн-по�
 ```
 git clone  https://github.com/pass1on-ok/subscription-aggregator-service.git
 cd subscription-aggregator-service
+```
 
-2. Создать .env файл
-
+### 2. Создать .env файл
+```
 APP_PORT=8080
 DB_HOST=postgres
 DB_PORT=5432
 DB_USER=postgres
 DB_PASSWORD=postgres
 DB_NAME=subscriptions
+```
 
-3. Поднять сервис
+### 3. Поднять сервис
+```
 docker-compose up --build
+```
 
-📂 Структура проекта
-
+### 📂 Структура проекта
+```
 .
 ├── cmd/
 │   └── main.go          # Точка входа
@@ -63,14 +67,18 @@ docker-compose up --build
 ├── docker-compose.yml
 ├── .env
 └── README.md
-📖 API (Swagger)
+```
+
+### 📖 API (Swagger)
 
 После запуска сервис доступен по адресу:
+```
 http://localhost:8080/swagger/index.html
+```
 
-📌 Примеры запросов
+### 📌 Примеры запросов
 Создать подписку
-
+```
 curl -X POST http://localhost:8080/api/subscriptions \
 -H "Content-Type: application/json" \
 -d '{
@@ -79,24 +87,29 @@ curl -X POST http://localhost:8080/api/subscriptions \
   "user_id": "60601fee-2bf1-4721-ae6f-7636e79a0cba",
   "start_date": "07-2025"
 }'
+```
 
 Получить список подписок
-
+```
 curl http://localhost:8080/api/subscriptions
+```
 
 Обновить подписку
-
+```
 curl -X PUT http://localhost:8080/api/subscriptions/{id} \
 -H "Content-Type: application/json" \
 -d '{
   "price": 500,
   "end_date": "12-2025"
 }'
+```
 
 Удалить подписку
-
+```
 curl -X DELETE http://localhost:8080/api/subscriptions/{id}
+```
 
 Подсчитать сумму за период
-
+```
 curl "http://localhost:8080/api/subscriptions/total?user_id=60601fee-2bf1-4721-ae6f-7636e79a0cba&from=20
+```
