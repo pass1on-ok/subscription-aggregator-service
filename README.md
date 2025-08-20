@@ -79,7 +79,7 @@ http://localhost:8080/swagger/index.html
 ### 📌 Примеры запросов
 Создать подписку
 ```
-curl -X POST http://localhost:8080/api/subscriptions \
+curl -X POST http://localhost:8080//subscriptions \
 -H "Content-Type: application/json" \
 -d '{
   "service_name": "Yandex Plus",
@@ -91,12 +91,17 @@ curl -X POST http://localhost:8080/api/subscriptions \
 
 Получить список подписок
 ```
-curl http://localhost:8080/api/subscriptions
+curl http://localhost:8080//subscriptions
+```
+
+Получить подписку по id
+```
+curl http://localhost:8080/subscriptions/{id}
 ```
 
 Обновить подписку
 ```
-curl -X PUT http://localhost:8080/api/subscriptions/{id} \
+curl -X PUT http://localhost:8080/subscriptions/{id} \
 -H "Content-Type: application/json" \
 -d '{
   "price": 500,
@@ -106,10 +111,10 @@ curl -X PUT http://localhost:8080/api/subscriptions/{id} \
 
 Удалить подписку
 ```
-curl -X DELETE http://localhost:8080/api/subscriptions/{id}
+curl -X DELETE http://localhost:8080/subscriptions/{id}
 ```
 
 Подсчитать сумму за период
 ```
-curl "http://localhost:8080/api/subscriptions/total?user_id=60601fee-2bf1-4721-ae6f-7636e79a0cba&from=20
+curl "http://localhost:8080/subscriptions/total?user_id=60601fee-2bf1-4721-ae6f-7636e79a0cba&from=20
 ```
