@@ -33,8 +33,8 @@ REST-сервис для агрегации данных об онлайн-по�
 
 ### 1. Клонировать репозиторий
 ```
-git clone https://github.com/your-repo/subscription-service.git
-cd subscription-service
+git clone  https://github.com/pass1on-ok/subscription-aggregator-service.git
+cd subscription-aggregator-service
 
 2. Создать .env файл
 
