@@ -1,0 +1,266 @@
+basePath: /
+definitions:
+  handlers.createReq:
+    properties:
+      end_date:
+        example: 09-2025
+        type: string
+      price:
+        example: 400
+        minimum: 0
+        type: integer
+      service_name:
+        example: Yandex Plus
+        type: string
+      start_date:
+        example: 07-2025
+        type: string
+      user_id:
+        example: 60601fee-2bf1-4721-ae6f-7636e79a0cba
+        type: string
+    required:
+    - price
+    - service_name
+    - start_date
+    - user_id
+    type: object
+  handlers.updateReq:
+    properties:
+      end_date:
+        example: 10-2025
+        type: string
+      price:
+        example: 500
+        type: integer
+      service_name:
+        example: Yandex Plus Premium
+        type: string
+      start_date:
+        example: 08-2025
+        type: string
+    type: object
+  models.Subscription:
+    properties:
+      created_at:
+        description: Добавлено — чтобы не было ошибки сортировки по created_at
+        type: string
+      end_date:
+        example: "2025-10-01"
+        type: string
+      id:
+        example: 60601fee-2bf1-4721-ae6f-7636e79a0cba
+        type: string
+      price:
+        example: 400
+        type: integer
+      service_name:
+        example: Yandex Plus
+        type: string
+      start_date:
+        example: "2025-07-01"
+        type: string
+      updated_at:
+        type: string
+      user_id:
+        example: 60601fee-2bf1-4721-ae6f-7636e79a0cba
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: REST-сервис для агрегации онлайн-подписок пользователей.
+  title: Subscriptions API
+  version: "1.0"
+paths:
+  /subscriptions:
+    get:
+      parameters:
+      - description: UUID
+        in: query
+        name: user_id
+        type: string
+      - description: filter by service
+        in: query
+        name: service_name
+        type: string
+      - description: MM-YYYY
+        in: query
+        name: from
+        type: string
+      - description: MM-YYYY
+        in: query
+        name: to
+        type: string
+      - description: limit
+        in: query
+        name: limit
+        type: integer
+      - description: offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Subscription'
+            type: array
+      summary: List subscriptions
+      tags:
+      - subscriptions
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: subscription
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.createReq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Subscription'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create subscription
+      tags:
+      - subscriptions
+  /subscriptions/{id}:
+    delete:
+      parameters:
+      - description: subscription id
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Delete subscription
+      tags:
+      - subscriptions
+    get:
+      parameters:
+      - description: subscription id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Subscription'
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get subscription by ID
+      tags:
+      - subscriptions
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: subscription id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: update
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.updateReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Subscription'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update subscription
+      tags:
+      - subscriptions
+  /subscriptions/total:
+    get:
+      parameters:
+      - description: UUID
+        in: query
+        name: user_id
+        type: string
+      - description: filter by service
+        in: query
+        name: service_name
+        type: string
+      - description: MM-YYYY
+        in: query
+        name: from
+        required: true
+        type: string
+      - description: MM-YYYY
+        in: query
+        name: to
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              format: int64
+              type: integer
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Sum total price over period (by months overlap)
+      tags:
+      - subscriptions
+schemes:
+- http
+swagger: "2.0"
